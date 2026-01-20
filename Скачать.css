@@ -47,6 +47,14 @@
   padding: 32px 100px;
 }
 
+.u-section-1 .u-btn-2 {
+  --radius: 21px;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  margin: 0 auto 0 0;
+  padding: 32px 410px;
+}
+
 @media (max-width: 1199px) {
   .u-section-1 .u-sheet-1 {
     min-height: 687px;
