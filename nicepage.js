@@ -37,3 +37,835 @@ var n,factory;n=void 0!==e?e:"undefined"!=typeof window?window:this,factory=func
  * https://github.com/gilmoreorless/css-background-parser
  * Copyright © 2015 Gilmore Davidson under the MIT license: http://gilmoreorless.mit-license.org/
  */!function(t){function e(t){if(!(this instanceof e))return new e;this.backgrounds=t||[]}function Background(props){function t(t,n){e[t]=t in props?props[t]:n}if(!(this instanceof Background))return new Background(props);props=props||{};var e=this;t("color",""),t("image",""),t("attachment",""),t("clip",""),t("origin",""),t("position",""),t("repeat",""),t("size","")}function n(t){var e=[],n=/[,\(\)]/,i=0,o="";if(null==t)return e;for(;t.length;){var a=n.exec(t);if(!a)break;var s,u=false;switch(a[0]){case",":i||(e.push(o.trim()),o="",u=true);break;case"(":i++;break;case")":i--}var index=a.index+1;o+=t.slice(0,u?index-1:index),t=t.slice(index)}return(o.length||t.length)&&e.push((o+t).trim()),e.filter((function(t){return"none"!==t}))}function i(t){return t.trim()}function o(t){return(t||"").split(",").map(i)}e.prototype.toString=function t(props){return this.backgrounds.map((function(t){return t.toString(props)})).filter((function(t){return t})).join(", ")},Background.prototype.toString=function t(props){if("string"==typeof props)return this[props]||"";props=props||["image","repeat","attachment","position","size","origin","clip"];var size=(props=Array.isArray(props)?props:[props]).includes("size")&&this.size?" / "+this.size:"",list=[props.includes("image")?this.image:"",props.includes("repeat")?this.repeat:"",props.includes("attachment")?this.attachment:"",props.includes("position")?this.position+size:"",props.includes("origin")?this.origin:"",props.includes("clip")?this.clip:""];return this.color&&list.unshift(this.color),list.filter((function(t){return t})).join(" ")},t.BackgroundList=e,t.Background=Background,t.parseElementStyle=function(t){var list=new e;if(null==t)return list;for(var i=n(t.backgroundImage.replace(/\/\*[^*]+\*\//g,"")),a=t.backgroundColor,s=o(t.backgroundAttachment),u=o(t.backgroundClip),l=o(t.backgroundOrigin),c=o(t.backgroundPosition),f=o(t.backgroundRepeat),h=o(t.backgroundSize),background,p=0,m=i.length;p<m;p++)background=new Background({image:i[p],attachment:s[p%s.length],clip:u[p%u.length],origin:l[p%l.length],position:c[p%c.length],repeat:f[p%f.length],size:h[p%h.length]}),p===m-1&&(background.color=a),list.backgrounds.push(background);return list}}((e=this,false,e.cssBgParser={}))}).call(window)},672:function(t,e,n){"use strict";(function(t,e){!function(t,n){function i(t){"function"!=typeof t&&(t=new Function(""+t));for(var e=new Array(arguments.length-1),n=0;n<e.length;n++)e[n]=arguments[n+1];var i={callback:t,args:e};return v[m]=i,w(m),m++}function o(t){delete v[t]}function a(t){var e=t.callback,i=t.args;switch(i.length){case 0:e();break;case 1:e(i[0]);break;case 2:e(i[0],i[1]);break;case 3:e(i[0],i[1],i[2]);break;default:e.apply(n,i)}}function s(t){if(g)setTimeout(s,0,t);else{var e=v[t];if(e){g=true;try{a(e)}finally{o(t),g=false}}}}function u(){w=function(t){e.nextTick((function(){s(t)}))}}function l(){if(t.postMessage&&!t.importScripts){var e=true,n=t.onmessage;return t.onmessage=function(){e=false},t.postMessage("","*"),t.onmessage=n,e}}function c(){var e="setImmediate$"+Math.random()+"$",n=function(n){n.source===t&&"string"==typeof n.data&&0===n.data.indexOf(e)&&s(+n.data.slice(e.length))};t.addEventListener?t.addEventListener("message",n,false):t.attachEvent("onmessage",n),w=function(n){t.postMessage(e+n,"*")}}function f(){var t=new MessageChannel;t.port1.onmessage=function(t){var e;s(t.data)},w=function(e){t.port2.postMessage(e)}}function h(){var html=y.documentElement;w=function(t){var e=y.createElement("script");e.onreadystatechange=function(){s(t),e.onreadystatechange=null,html.removeChild(e),e=null},html.appendChild(e)}}function p(){w=function(t){setTimeout(s,0,t)}}if(!t.setImmediate){var m=1,v={},g=false,y=t.document,w,b=Object.getPrototypeOf&&Object.getPrototypeOf(t);b=b&&b.setTimeout?b:t,"[object process]"==={}.toString.call(t.process)?u():l()?c():t.MessageChannel?f():y&&"onreadystatechange"in y.createElement("script")?h():p(),b.setImmediate=i,b.clearImmediate=o}}("undefined"==typeof self?void 0===t?this:t:self)}).call(e,n(86),n(185))},702:function(t,e,n){"use strict";function i(t){var e=t.length;if(e%4>0)throw new Error("Invalid string. Length must be a multiple of 4");var n=t.indexOf("="),i;return-1===n&&(n=e),[n,n===e?0:4-n%4]}function o(t){var e=i(t),n=e[0],o=e[1];return 3*(n+o)/4-o}function a(t,e,n){return 3*(e+n)/4-n}function s(t){for(var e,n=i(t),o=n[0],s=n[1],u=new p(a(t,o,s)),l=0,c=s>0?o-4:o,f=0;f<c;f+=4)e=h[t.charCodeAt(f)]<<18|h[t.charCodeAt(f+1)]<<12|h[t.charCodeAt(f+2)]<<6|h[t.charCodeAt(f+3)],u[l++]=e>>16&255,u[l++]=e>>8&255,u[l++]=255&e;return 2===s&&(e=h[t.charCodeAt(f)]<<2|h[t.charCodeAt(f+1)]>>4,u[l++]=255&e),1===s&&(e=h[t.charCodeAt(f)]<<10|h[t.charCodeAt(f+1)]<<4|h[t.charCodeAt(f+2)]>>2,u[l++]=e>>8&255,u[l++]=255&e),u}function u(t){return f[t>>18&63]+f[t>>12&63]+f[t>>6&63]+f[63&t]}function l(t,e,n){for(var i,o=[],a=e;a<n;a+=3)i=(t[a]<<16&16711680)+(t[a+1]<<8&65280)+(255&t[a+2]),o.push(u(i));return o.join("")}function c(t){for(var e,n=t.length,i=n%3,o=[],a=16383,s=0,u=n-i;s<u;s+=a)o.push(l(t,s,s+a>u?u:s+a));return 1===i?(e=t[n-1],o.push(f[e>>2]+f[e<<4&63]+"==")):2===i&&(e=(t[n-2]<<8)+t[n-1],o.push(f[e>>10]+f[e>>4&63]+f[e<<2&63]+"=")),o.join("")}e.byteLength=o,e.toByteArray=s,e.fromByteArray=c;for(var f=[],h=[],p="undefined"!=typeof Uint8Array?Uint8Array:Array,m="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",v=0,g=m.length;v<g;++v)f[v]=m[v],h[m.charCodeAt(v)]=v;h["-".charCodeAt(0)]=62,h["_".charCodeAt(0)]=63},703:function(t,e,n){"use strict";e.read=function(t,e,n,i,o){var a,s,u=8*o-i-1,l=(1<<u)-1,c=l>>1,f=-7,h=n?o-1:0,d=n?-1:1,p=t[e+h];for(h+=d,a=p&(1<<-f)-1,p>>=-f,f+=u;f>0;a=256*a+t[e+h],h+=d,f-=8);for(s=a&(1<<-f)-1,a>>=-f,f+=i;f>0;s=256*s+t[e+h],h+=d,f-=8);if(0===a)a=1-c;else{if(a===l)return s?NaN:1/0*(p?-1:1);s+=Math.pow(2,i),a-=c}return(p?-1:1)*s*Math.pow(2,a-i)},e.write=function(t,e,n,i,o,a){var s,u,l,c=8*a-o-1,f=(1<<c)-1,h=f>>1,p=23===o?Math.pow(2,-24)-Math.pow(2,-77):0,m=i?0:a-1,d=i?1:-1,v=e<0||0===e&&1/e<0?1:0;for(e=Math.abs(e),isNaN(e)||e===1/0?(u=isNaN(e)?1:0,s=f):(s=Math.floor(Math.log(e)/Math.LN2),e*(l=Math.pow(2,-s))<1&&(s--,l*=2),(e+=s+h>=1?p/l:p*Math.pow(2,1-h))*l>=2&&(s++,l/=2),s+h>=f?(u=0,s=f):s+h>=1?(u=(e*l-1)*Math.pow(2,o),s+=h):(u=e*Math.pow(2,h-1)*Math.pow(2,o),s=0));o>=8;t[n+m]=255&u,m+=d,u/=256,o-=8);for(s=s<<o|u,c+=o;c>0;t[n+m]=255&s,m+=d,s/=256,c-=8);t[n+m-d]|=128*v}},704:function(t,e,n){"use strict";var i={}.toString;t.exports=Array.isArray||function(t){return"[object Array]"==i.call(t)}},795:function(t,e,n){"use strict";var i=t.exports;i.apply=function(t,state){if(!t)return console.error("StepCss.apply: DOM element is not valid"),void 0;var e="transform, opacity, filter",n=getComputedStyle(t);"auto"===n.willChange&&state.willChange?t.style["will-change"]="transform, opacity, filter":n.willChange!==e||state.willChange||(t.style["will-change"]=""),i.applyTransform(t,state),i.applyOpacity(t,state),i.applyFilter(t,state),i.applyBG(t,state),i.applyPosition(t,state)},i.applyTransform=function t(e,state){var transform=[],n=parseFloat(state.mx)||0,i=parseFloat(state.my)||0,o=parseFloat(state.rot)||0,a=parseFloat(state.sx),s=parseFloat(state.sy);if(Number.isFinite(a)||(a=1),Number.isFinite(s)||(s=1),n&&transform.push("translateX("+n.toFixed(3)+"px)"),i||state._fixedDist){var u=i+(state._fixedDist||0);transform.push("translateY("+u.toFixed(3)+"px)")}o&&transform.push("rotate("+o.toFixed(3)+"deg)"),1===a&&1===s||transform.push("scale("+a.toFixed(3)+", "+s.toFixed(3)+")"),transform.length||transform.push("rotate(0deg)"),e.style.transform=transform.join(" ")},i.applyOpacity=function t(e,state){var n=parseFloat(state.op);Number.isFinite(n)||(n=1),e.style.opacity=n.toFixed(3)},i.applyFilter=function t(e,state){var n=parseFloat(state.blur)||0;e.style.filter=n?"blur("+n.toFixed(3)+"px)":""},i.applyBG=function t(e,state){var n=parseFloat(state.bgy)||0;e.style["background-position"]="50% "+n.toFixed(2)+"vh"},i.applyPosition=function t(e,state){e.classList.toggle("u-animation-sticky",Boolean(state.sticky)),e.classList.toggle("u-animation-fixed",Boolean(state.fixed))},window.StepCss=i},799:function(t,e,n){"use strict";var i=n(354).instance();i.registerAnimation(n(800)),i.registerAnimation(n(803)),i.registerAnimation(n(355))},800:function(t,e,n){"use strict";function i(t,e){this.info=t,this.hint=e,this.timeoutId=null}var o=n(801);t.exports=i,i.isMatch=function(t){return t&&"counter"===t.name},i.create=function(t,e){return new i(t,e)},i.prototype.init=function init(){var t=this.info.element;if(!this.countUp&&t){var e=/(\D*)(\d+(?:([.,])(\d+))?)(.*)/.exec(t.textContent),n=1,i=2,a=3,s=4,u=5;if(null!==e&&e[2]&&!(e[2].length>15)){var l=e[2];if(","===e[3]&&(l=l.replace(",",".")),(l=Number(l))&&!isNaN(l)&&isFinite(l)){this.hint&&this.hint.hintBrowser(this.info);var c=0;e[4]&&(c=e[4].length);var f={element:t,prefix:e[1],decimal:e[3],decimals:c,suffix:e[5],startVal:0,endVal:l,duration:this.info.durationRaw,cycle:this.info.animationCycle,separator:""};this.countUp=new o(f)}}}},i.prototype.start=function t(){if(this.countUp){this.countUp.reset(),this._timeoutId&&clearTimeout(this._timeoutId);var e=function(){this._timeoutId=null,this.countUp.start()}.bind(this),n=this.info.delay;if(isNaN(n)&&(n=0),!n)return e(),void 0;this._timeoutId=setTimeout(e,n)}},i.prototype.startOut=function t(){this._timeoutId&&(clearTimeout(this._timeoutId),this._timeoutId=null)},i.prototype.reset=function t(){this.countUp&&this.countUp.reset()},i.prototype.isInOutAnimation=function t(){return true},i.prototype.needOutAnimation=function t(){return false},i.prototype.clear=function t(){this.hint&&this.hint.removeHint(this.info)},i.prototype.getTime=function t(){if(!this.info)return 0;var duration=this.info.duration,e=this.info.delay;return isNaN(e)&&(e=0),e+duration},i.prototype.getOutTime=function t(){return 0}},801:function(t,e,n){"use strict";function i(t){this.initialize(t)}function o(countUp,t,e){if(countUp){t=Number(t),!isNaN(t)&&isFinite(t)&&0!==t||(t=1);var n=0,i=function(){++n<t?(countUp.reset(),countUp.start(i)):"function"==typeof e&&e()};countUp.start(i)}}n(802),i.prototype.initialize=function t(e){if(!this.countUp&&e.element){var n=e.startVal,i=e.endVal,o=e.decimals,duration=e.duration;!n&&0!=+n||!i&&0!=+i||(duration&&(duration=Number(duration)/1e3,isNaN(duration)&&(duration=void 0)),this.cycle=e.cycle,this.countUp=new CountUp(e.element,n,i,o,duration,e),this.started=false)}},i.prototype.reset=function t(){this.started=false,this.countUp&&this.countUp.reset()},i.prototype.start=function t(){this.countUp&&!this.started&&(this.started=true,o(this.countUp,this.cycle))},t.exports=i},802:function(t,e){var e=void 0,t=void 0;(function(){var t=void 0,e,factory;e=this,factory=function(t,e,n){var CountUp;return function(t,e,n,i,duration,o){function a(t){var e,n,i,o,a,s;if(t=t.toFixed(l.decimals),n=(e=(t+="").split("."))[0],i=e.length>1?l.options.decimal+e[1]:"",l.options.useGrouping){for(o="",a=0,s=n.length;a<s;++a)0!==a&&a%3==0&&(o=l.options.separator+o),o=n[s-a-1]+o;n=o}return l.options.numerals.length&&(n=n.replace(/[0-9]/g,(function(t){return l.options.numerals[+t]})),i=i.replace(/[0-9]/g,(function(t){return l.options.numerals[+t]}))),l.options.prefix+n+i+l.options.suffix}function s(t,e,n,d){return n*(1-Math.pow(2,-10*t/d))*1024/1023+e}function u(t){return"number"==typeof t&&!isNaN(t)}var l=this;if(l.version=function(){return"1.9.2"},l.options={useEasing:true,useGrouping:true,separator:",",decimal:".",easingFn:s,formattingFn:a,prefix:"",suffix:"",numerals:[]},o&&"object"==typeof o)for(var c in l.options)o.hasOwnProperty(c)&&null!==o[c]&&(l.options[c]=o[c]);""===l.options.separator?l.options.useGrouping=false:l.options.separator=""+l.options.separator;for(var f=0,h=["webkit","moz","ms","o"],p=0;p<h.length&&!window.requestAnimationFrame;++p)window.requestAnimationFrame=window[h[p]+"RequestAnimationFrame"],window.cancelAnimationFrame=window[h[p]+"CancelAnimationFrame"]||window[h[p]+"CancelRequestAnimationFrame"];window.requestAnimationFrame||(window.requestAnimationFrame=function(t,e){var n=(new Date).getTime(),i=Math.max(0,16-(n-f)),id=window.setTimeout((function(){t(n+i)}),i);return f=n+i,id}),window.cancelAnimationFrame||(window.cancelAnimationFrame=function(id){clearTimeout(id)}),l.initialize=function(){return!!l.initialized||(l.error="",l.d="string"==typeof t?document.getElementById(t):t,l.d?(l.startVal=Number(e),l.endVal=Number(n),u(l.startVal)&&u(l.endVal)?(l.decimals=Math.max(0,i||0),l.dec=Math.pow(10,l.decimals),l.duration=1e3*Number(duration)||2e3,l.countDown=l.startVal>l.endVal,l.frameVal=l.startVal,l.initialized=true,true):(l.error="[CountUp] startVal ("+e+") or endVal ("+n+") is not a number",false)):(l.error="[CountUp] target is null or undefined",false))},l.printValue=function(t){var e=l.options.formattingFn(t);"INPUT"===l.d.tagName?this.d.value=e:"text"===l.d.tagName||"tspan"===l.d.tagName?this.d.textContent=e:this.d.innerHTML=e},l.count=function(t){l.startTime||(l.startTime=t),l.timestamp=t;var e=t-l.startTime;l.remaining=l.duration-e,l.options.useEasing?l.countDown?l.frameVal=l.startVal-l.options.easingFn(e,0,l.startVal-l.endVal,l.duration):l.frameVal=l.options.easingFn(e,l.startVal,l.endVal-l.startVal,l.duration):l.countDown?l.frameVal=l.startVal-(l.startVal-l.endVal)*(e/l.duration):l.frameVal=l.startVal+(l.endVal-l.startVal)*(e/l.duration),l.countDown?l.frameVal=l.frameVal<l.endVal?l.endVal:l.frameVal:l.frameVal=l.frameVal>l.endVal?l.endVal:l.frameVal,l.frameVal=Math.round(l.frameVal*l.dec)/l.dec,l.printValue(l.frameVal),e<l.duration?l.rAF=requestAnimationFrame(l.count):l.callback&&l.callback()},l.start=function(t){l.initialize()&&(l.callback=t,l.rAF=requestAnimationFrame(l.count))},l.pauseResume=function(){l.paused?(l.paused=false,delete l.startTime,l.duration=l.remaining,l.startVal=l.frameVal,requestAnimationFrame(l.count)):(l.paused=true,cancelAnimationFrame(l.rAF))},l.reset=function(){l.paused=false,delete l.startTime,l.initialized=false,l.initialize()&&(cancelAnimationFrame(l.rAF),l.printValue(l.startVal))},l.update=function(t){if(l.initialize()){if(!u(t=Number(t)))return l.error="[CountUp] update() - new endVal is not a number: "+t,void 0;l.error="",t!==l.frameVal&&(cancelAnimationFrame(l.rAF),l.paused=false,delete l.startTime,l.startVal=l.frameVal,l.endVal=t,l.countDown=l.startVal>l.endVal,l.rAF=requestAnimationFrame(l.count))}},l.initialize()&&l.printValue(l.startVal)}},void("function"==typeof define&&define.amd?define(factory):(false,e.CountUp=factory()))}).call(window)},803:function(t,e,n){"use strict";function i(){o.apply(this,arguments),this.backstageClass=["backstage","u-backstage-hidden"]}var o=n(355);Object.assign(i.prototype,o.prototype),t.exports=i,i.isMatch=function(t){var e=(t&&t.name||"").toLowerCase();return["slidein","fadein","flipin","bouncein","jackinthebox","lightspeedin","customanimationin"].indexOf(e)>-1},i.create=function(t,e){return new i(t,e)}},811:function(t,e,n){"use strict";function PaginationBuilder(pagination,data,t){this.data=data,this.options=t,this.pagination=pagination.clone();var e=this.pagination.attr("data-pagination-options");if(e)this.styleOptions=JSON.parse(e);else{var n=this.pagination.find("li:not(.disabled):not(.active)"),i=n.find("a");this.styleOptions={ul:'style="'+(this.pagination.attr("style")||"")+'" class="'+(this.pagination.attr("class")||"")+'"',li:'style="'+(n.attr("style")||"")+'" class="'+(n.attr("class")||"")+'"',link:'style="'+(i.attr("style")||"")+'" class="'+(i.attr("class")||"")+'"'}}}function i(t,e,n){return 0===t?{active:false,data:"<a>&#12298</a>"}:{active:true,data:'<a title="Start" href="'+(n?"#1":"../"+e)+'">&#12298</a>'};var i}function o(t,e,n){return 0===t?{active:false,data:"<a>&#12296</a>"}:(n?i=1===t?"#"+t:"#1":(t=t-1?"_"+t:"",i="../"+e.replace(/\.html/i,t+".html")),{active:true,data:'<a title="Prev" href="'+i+'">&#12296</a>'});var i}function a(t,e,n,i){var o=t+1,a;return o>=i?{active:false,data:"<a>&#12297</a>"}:{active:true,data:'<a title="Next" href="'+(a=n?"#"+(o+1):"../"+e.replace(/\.html/i,"_"+o+".html"))+'">&#12297</a>'}}function s(t,e,n,i){var o,a;return t+1>=i?{active:false,data:"<a>&#12299</a>"}:{active:true,data:'<a title="End" href="'+(a=n?"#"+i:"../"+e.replace(/\.html/,"_"+(i-1)+".html"))+'">&#12299</a>'}}function u(t,e,n,i){for(var o=[],all=i,a=0,s=1,u=1;all>a;){var l=true,c,data='<a href="'+(c=n?"#"+(a?a+1:"1"):"../"+e.replace(/\.html/,(a?"_"+a:"")+".html"))+'">'+s+"</a>";a===t&&(l=false,data='<a href="javascript:void(0)">'+s+"</a>",u=s),o.push({active:l,data:data}),a++,s++}var f=10,h=5;if(o.length>f){var p=o.slice(0,u),m=o.slice(u),v,g;if(p.length<5)v=p,g=o.slice(u,f-v.length);else if(m.length<5){var y=f-(g=m).length;v=o.slice(u-y,y)}else v=o.slice(u-5,5),g=o.slice(u,5);o=v.concat(g)}return o}t.exports=PaginationBuilder,PaginationBuilder.prototype.getPagination=function(t){var e=this.data.listItems.length,list=this.buildPagination(t,e),n=this.styleOptions.ul,i=this.styleOptions.li,o=i.replace('class="','class="active '),a=i.replace('class="','class="start '),s=i.replace('class="','class="prev '),u=i.replace('class="','class="next '),l=i.replace('class="','class="end '),link=this.styleOptions.link,html=[],c=document.createElement("ul");c.setAttribute("data-pagination-options",JSON.stringify(this.styleOptions)),html.push(c.outerHTML.replace("<ul","<ul "+n).replace("</ul>","")),list.start.active&&(html.push("<li "+a+">"),html.push(list.start.data),html.push("</li>")),list.previous.active&&(html.push("<li "+s+">"),html.push(list.previous.data),html.push("</li>"));for(var f=0;f<list.pages.length;f++){var page=list.pages[f];html.push("<li "+(page.active?i:o)+">"+page.data+"</li>")}return list.next.active&&(html.push("<li "+u+">"),html.push(list.next.data),html.push("</li>")),list.end.active&&(html.push("<li "+l+">"),html.push(list.end.data),html.push("</li>")),html.push("</ul>"),html=(html=html.join("")).replace(/<a /g,"<a "+link+" ")},PaginationBuilder.prototype.buildPagination=function(t,e){var list={},n=this.options.isPage,l=this.options.listHref;return list.start=i(t,l,n),list.previous=o(t,l,n),list.pages=u(t,l,n,e),list.next=a(t,l,n,e),list.end=s(t,l,n,e),list},window.PaginationBuilder=PaginationBuilder},86:function(t,e,n){"use strict";var i;i=function(){return this}();try{i=i||Function("return this")()||(1,eval)("this")}catch(t){"object"==typeof window&&(i=window)}t.exports=i},867:function(t,e,n){"use strict";function i(t,e){if("string"!=typeof t)return 0;var n=(new u).replace(t,e).expr;if(""===n.trim())return 0;o(n);try{var i,l;return s(new Function('"use strict";return ('+n+");")(),4)}catch(e){return a(e,t)}}function o(t){var e=/[^-()\d\s/*+.]+|\/\/|\/\*/g.exec(t),n=20,i;if(e){var o={messageKey:"#FormCalc_UnexpectedToken",expression:i=e[0].substring(0,n),position:e.index};throw Object.assign(new Error("Unexpected token '"+i+"'",{cause:o}),{args:o})}}function a(t,e){var n={messageKey:"#FormCalc_EvaluationFailed",expression:e};throw Object.assign(new Error("Evaluation failed",{cause:n}),{args:n})}function s(t,e){if(t=Number(t),e=Number(e),isNaN(t)||!isFinite(t))return t;var n=t.toString().split("e"),i=n[0],o=n[1]||0,a,s,u=Math.round(Number(i+"e"+(+o+e))).toString().split("e")[0],l=n[1]||0;return Number(u+"e"+(+l-e))}var u=n(539);t.exports.evaluate=i},868:function(t,e,n){"use strict";function i(el){var t=el.getAttribute("name"),type;return t?(t=t.trim(),"SELECT"===el.tagName||"checkbox"===el.getAttribute("type")?o(t):t):t}function o(t){if(!t)return t;var e=t.lastIndexOf("[][]");return e>0&&e+4===t.length?t.substring(0,t.length-4):(e=t.lastIndexOf("[]"))>0&&e+2===t.length?t.substring(0,t.length-2):t}function a(el){if("OPTION"===el.tagName)return el.getAttribute("data-calc");var type=el.getAttribute("type");return"number"===type||"range"===type?el.value:"radio"===type||"checkbox"===type&&null!==el.getAttribute("data-calc")?el.getAttribute("data-calc"):"checkbox"===type?el.value:void 0}function s(el){return Number(a(el))}function u(el){if("OPTION"===el.tagName)return el.selected;var type=el.getAttribute("type");return"radio"!==type&&"checkbox"!==type||el.checked}function l(el,t){return t=t||0,u(el)?s(el):t}var c=t.exports=function t(form){this.fields=[],this.collectInputs(form.querySelectorAll("[type=number], [type=range]")),this.collectInputs(form.querySelectorAll("[type=radio]")),this.collectInputs(form.querySelectorAll('[type="checkbox"]')),this.collectSelects(form.querySelectorAll("select"))};c.prototype.getScope=function t(){return this.fields.reduce((function(t,e){return e&&e.name?(t[e.name]||(t[e.name]=0),t[e.name]+=e.value,t):t}),{})},c.prototype.addField=function t(field){return this.fields.push(field),field},c.prototype.collectInputs=function(t){for(var e=0;e<t.length;e++)this.addField({name:i(t[e]),value:l(t[e],0),rawValue:a(t[e])})},c.prototype.collectSelects=function(t){for(var e=0;e<t.length;e++)this.collectOptions(i(t[e]),t[e].querySelectorAll("option"))},c.prototype.collectOptions=function(t,e){for(var n=0;n<e.length;n++)this.addField({name:t,value:l(e[n],0),rawValue:a(e[n])})}},869:function(t,e,n){"use strict";function i(t,e,n){var i=t.find(".u-form-progress-step");i.removeClass("active done"),o(i.find(".u-form-progress-icon"),"default"),o(i.find(".u-form-progress-icon"),"step");var a=t.find(".u-form-progress-step").eq(n);a.addClass("active");var s=a.prevAll(".u-form-progress-step");s.addClass("done"),o(s.find(".u-form-progress-icon"),"done")}function o(icon,type){type=type||"default",icon.each((function(){var t=$(this),e=t.attr("data-step-icon-"+type);e&&t.html(e)}))}function a(t,e,n){var i=t.find(".u-form-progress-bar"),o="calc((100% - var(--step-icon-size)) / "+(e.length-1)+" * "+n+")";i.css("width",o)}var FormProgress;t.exports.update=function(form,t){if(form.length){var e=form.find(".u-form-progress"),n=form.find(".u-carousel-inner").children();void 0===t&&(t=n.filter(".u-active, .active").index()),a(e,n,t),i(e,n,t)}}},870:function(t,e,n){"use strict";var i;t.exports.update=function(form,t){var e=form.find(".u-slide");void 0===t&&(t=e.filter(".u-active, .active").index());var n=form.find(".u-btn-submit, .u-btn-step"),i=n.filter(".u-btn-submit"),o=n.filter(".u-btn-step-next"),a=n.filter(".u-btn-step-prev");n.removeClass("u-hidden"),n.css("display",""),0===t&&a.addClass("u-hidden"),t===e.length-1&&(o.addClass("u-hidden"),i.removeClass("u-hidden")),t<e.length-1&&(o.removeClass("u-hidden"),i.addClass("u-hidden"))}},871:function(t,e,n){"use strict";var FormFileType=n(204),FormFileAccept=t.exports;FormFileAccept[FormFileType.IMAGES]=".bmp,.dng,.eps,.gif,.jpg,.jpeg,.png,.ps,.raw,.svg,.tga,.tif,.tiff",FormFileAccept[FormFileType.DOCUMENTS]=".ai,.cdr,.csv,.doc,.docb,.docx,.dot,.dotx,.dwg,.eps,.epub,.fla,.gpx,.ical,.icalendar,.ics,.ifb,.indd,.ipynb,.key,.kml,.kmz,.mobi,.mtf,.mtx,.numbers,.odg,.odp,.ods,.odt,.otp,.ots,.ott,.oxps,.pages,.pdf,.pdn,.pkg,.pot,.potx,.pps,.ppsx,.ppt,.pptx,.psd,.pub,.rtf,.sldx,.txt,.vcf,.xcf,.xls,.xlsx,.xlt,.xltx,.xlw,.xps,.zip",FormFileAccept[FormFileType.VIDEO]=".3gp,.avi,.divx,.flv,.m1v,.m2ts,.m4v,.mkv,.mov,.mp4,.mpe,.mpeg,.mpg,.mxf,.ogv,.vob.webm,.wmv,.xvid",FormFileAccept[FormFileType.AUDIO]=".aac,.aif,.aiff,.flac,.m4a,.mp3,.wav,.wma"},91:function(t,e,n){"use strict";function CountdownCommon(t){this.$dom=t}t.exports=CountdownCommon;var CountdownAnimate=n(519);CountdownCommon.prototype.getDate=function(){var date=this.$dom.attr("data-target-date");return date?new Date(date):new Date},CountdownCommon.prototype.getDirection=function(){return this.$dom.attr("data-direction")||"down"},CountdownCommon.prototype.getTimeLeft=function(){return this.$dom.attr("data-time-left")||"750m"},CountdownCommon.prototype.getNumber=function(){var t=this.$dom.attr("data-target-number")||"100";return parseInt(t,10)},CountdownCommon.prototype.getStartTime=function(){var date=this.$dom.attr("data-start-time");return date?new Date(date):new Date},CountdownCommon.prototype.getFrequency=function(){return this.$dom.attr("data-frequency")||"1s"},CountdownCommon.prototype.getTimerId=function(){return this.$dom.attr("data-timer-id")},CountdownCommon.prototype.getTimerKey=function(){return"timer-"+this.getTimerId()},CountdownCommon.prototype.getFor=function(){return this.$dom.attr("data-for")||"everyone"},CountdownCommon.prototype.getType=function(){return this.$dom.attr("data-type")||"to-date"},CountdownCommon.prototype.setValue=function(t,e,n,props){var i=this.$dom.find(".u-countdown-"+t),o=e.toString(),a=o.length;if("to-number"===this.getType()){for(;i.find(".u-countdown-number").length<a+1;){var itemDom=i.find(".u-countdown-number:eq(0)");if(!itemDom.length)break;itemDom.clone().insertAfter(itemDom).text("0")}for(;i.find(".u-countdown-number").length>a+1;)i.find(".u-countdown-number:eq(0)").remove()}var s=i.find(".u-countdown-number");if("hours"===t||"minutes"===t||"seconds"===t||"numbers"===t)for(;o.length<s.length;)o="0"+o;if(!(a>s.length))for(var u=0;u<s.length;u++){var l=$(s[u]);this.doSetVal(l,o[u],props),!n||"years"!==t&&"days"!==t||l.toggleClass("u-hidden",u>=a)}},CountdownCommon.prototype.doSetVal=function(t,e,props){if(!(props=props||{}).animation||"none"===props.animation)return t.text()!==e&&t.text(e),void 0;var n=new CountdownAnimate(t);n.getOldVal()!==e&&n.rollNumber(e,props)},CountdownCommon.prototype.showLabel=function(t,e){var n=this.$dom.find(".u-countdown-"+t);n.toggleClass("u-hidden",!e),n.parent().children(".u-countdown-separator").each((function(t,el){var e=$(el),n=e.prev(".u-countdown-item"),i=e.nextAll(".u-countdown-item:not(.u-hidden)");e.toggleClass("u-hidden",!(n.is(":not(.u-hidden)")&&i.is(":not(.u-hidden)")))}))},CountdownCommon.prototype.setAfterCountFinished=function(){this.$dom.attr("data-after-count-finished",true)},CountdownCommon.prototype.getAfterCountFinished=function(){var t=this.$dom.attr("data-after-count-finished")||"false";return t&&"true"===t||false},CountdownCommon.prototype.getAfterCount=function(){return this.$dom.attr("data-after-count")||"none"},CountdownCommon.prototype.getRedirectUrl=function(){return this.$dom.attr("data-redirect-url")||"https://"},CountdownCommon.prototype.getCountAnimation=function(){return this.$dom.attr("data-count-animation")||"none"},CountdownCommon.prototype.timeDiff=function(t){var e=new Date,n;return"down"===this.getDirection()?CountdownCommon.calcTimeDiff(t,e):CountdownCommon.calcTimeDiff(e,t)},CountdownCommon.prototype.calcNumber=function(t,e,n){var i=CountdownCommon.timeStringToMilliseconds(n);if(!i)return 0;var o=new Date,a="up"===this.getDirection()?1:-1,s=t+Math.floor((o-e)/i)*a;return s<0?0:s},CountdownCommon.prototype.parseTime=function(t,e){var n=CountdownCommon.timeStringToMilliseconds(t),i="down"===this.getDirection()?1:-1;return new Date(e.getTime()+n*i)},CountdownCommon.calcTimeDiff=function(t,e){if(t<=e)return CountdownCommon.emptyDiff();var n=Math.abs(t-e)/1e3,i=Math.floor(n/31536e3);n-=31536e3*i;var o=Math.floor(n/86400);n-=86400*o;var a=Math.floor(n/3600)%24;n-=3600*a;var s=Math.floor(n/60)%60,u;return n-=60*s,{years:i,days:o,hours:a,minutes:s,seconds:Math.floor(n)}},CountdownCommon.emptyDiff=function(){return{years:0,days:0,hours:0,minutes:0,seconds:0}},CountdownCommon.isEmptyDiff=function(diff){return"number"==typeof diff?0===diff:0===diff.years&&0===diff.days&&0===diff.hours&&0===diff.minutes&&0===diff.seconds},CountdownCommon.timeStringToMilliseconds=function(t){var data=t.match(/(\d+)(ms|s|m|h|d|)/);if(data&&3===data.length){var e=parseInt(data[1],10);switch(data[2]){case"ms":return e;case"s":return 1e3*e;case"m":return 60*e*1e3;case"h":return 3600*e*1e3;case"d":return 86400*e*1e3;default:return 0}}return 0}}});
+
+ // === АВТОМАТИЧНИЙ МОДУЛЬ МОВ (відображається на всіх сторінках) ===
+(function() {
+  // 1. Вбудовуємо стилі безпосередньо через JS, щоб не залежати від файлу lang.css та шляхів до папок
+  if (!document.getElementById('lang-embedded-styles')) {
+    const styleEl = document.createElement('style');
+    styleEl.id = 'lang-embedded-styles';
+    styleEl.innerHTML = `
+      .lang-switcher-top {
+        position: fixed !important;
+        top: 15px !important;
+        right: 20px !important;
+        z-index: 999999 !important;
+        background: rgba(30, 30, 30, 0.92) !important;
+        padding: 5px 10px !important;
+        border-radius: 20px !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 6px !important;
+        align-items: center !important;
+        backdrop-filter: blur(5px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+      }
+
+      .lang-btn {
+        background: transparent !important;
+        border: none !important;
+        color: #ffffff !important;
+        cursor: pointer !important;
+        font-family: inherit !important;
+        font-weight: 700 !important;
+        font-size: 13px !important;
+        line-height: 1 !important;
+        padding: 6px 10px !important;
+        border-radius: 12px !important;
+        margin: 0 !important;
+        transition: all 0.2s ease !important;
+        box-shadow: none !important;
+        outline: none !important;
+      }
+
+      .lang-btn:hover {
+        background: rgba(255, 255, 255, 0.2) !important;
+        color: #fff !important;
+      }
+
+      .lang-btn.active {
+        background: #800080 !important;
+        color: #ffffff !important;
+      }
+
+      /* Спливаюче вікно */
+      .lang-modal-overlay {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        background: rgba(0, 0, 0, 0.8) !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        z-index: 1000000 !important;
+        backdrop-filter: blur(6px) !important;
+      }
+
+      .lang-modal {
+        background: #222222 !important;
+        color: #ffffff !important;
+        padding: 30px !important;
+        border-radius: 16px !important;
+        text-align: center !important;
+        max-width: 420px !important;
+        width: 90% !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
+        border: 1px solid #444 !important;
+        box-sizing: border-box !important;
+      }
+
+      .lang-modal h2 {
+        margin: 0 0 10px 0 !important;
+        font-size: 22px !important;
+        color: #fff !important;
+      }
+
+      .lang-modal p {
+        color: #bbb !important;
+        font-size: 14px !important;
+        margin: 0 0 25px 0 !important;
+      }
+
+      .lang-modal-buttons {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+      }
+
+      .lang-modal-btn {
+        background: #333333 !important;
+        color: #ffffff !important;
+        border: 1px solid #555 !important;
+        padding: 12px !important;
+        border-radius: 10px !important;
+        cursor: pointer !important;
+        font-size: 15px !important;
+        font-weight: 600 !important;
+        transition: 0.2s !important;
+        outline: none !important;
+      }
+
+      .lang-modal-btn:hover {
+        background: #800080 !important;
+        border-color: #800080 !important;
+      }
+    `;
+    document.head.appendChild(styleEl);
+  }
+
+  // 2. Словник перекладів
+  const translations = {
+    ua: {
+      nav_home: "Головна",
+      nav_items: "Предмети",
+      nav_blocks: "Блоки",
+      nav_mobs: "Моби",
+      nav_download: "Завантажити",
+      welcome_title: "Ласкаво просимо на офіційну вікі ImprovedPotions!",
+      main_desc: "ImprovedPotions — це невеликий дата-пак для гри Minecraft. Його основна мета — покращення механіки варіння зілля. Додаючи нові інгредієнти, робочі блоки, а також кардинально змінюючи взаємодію під час варіння, проєкт робить цю частину гри значно цікавішою. Основним автором є BigSTy. Тут ви знайдете всю необхідну інформацію та посилання на завантаження.",
+      nav_panel: "Панель навігації",
+      card_structures: "Структури",
+      card_mechanics: "Механіки",
+      card_creators: "Автори",
+      card_video: "Відеоогляд",
+      card_more: "Інші роботи",
+      authors_page_title: "Автори",
+authors_heading: "Автори та всі, хто допомагав під час розробки",
+author_bigsty_role: "Сфера: код, рп, автор ідеї",
+author_bth_role: "Сфера: рп, ідеї",
+author_antoha_role: "Сфера: допомога з кодом",
+link_text: "посилання",
+items_page_title: "Предмети",
+item_potions: "Зілля",
+item_special_potions: "Особливі зілля",
+item_tipped_arrows: "Стріли з ефектом",
+item_potion_book: "Книга зілля",
+item_gunpowder_wart: "Порохова бородавка",
+item_redstone_dust: "Порошок червоного каменю",
+item_magma_powder: "Порошок магми",
+item_gunpowder_flame: "Порохове полум'я",
+item_blue_gunpowder: "Синій порох",
+item_gunpowder_netherite: "Пороховий незерит",
+item_gunpowder_flint: "Пороховий кремінь",
+item_jar: "Банка",
+item_ghost_in_jar: "Привид у банці",
+item_frog_leg: "Жаб'яча лапка",
+item_poisoned_apple: "Отруєне яблуко",
+item_swamp_chestplate: "Болотний нагрудник",
+item_pestle: "Товкач",
+item_witch_hat: "Капелюх відьми",
+item_bottles: "Пляшки",
+structures_page_title: "Структури",
+click_image_hint: "Щоб дізнатися більше інформації, переходьте на сторінки, натискаючи на зображення",
+struct_huge_mushrooms: "Величезні гриби",
+struct_campfire: "Багаття",
+struct_altar: "Вівтар",
+struct_abandoned_house: "Покинутий будинок",
+mobs_page_title: "Моби",
+mob_ghost: "Привид",
+mob_ghost_type: "Тип: істота",
+mob_ghost_fight: "Бій: ні",
+mob_ghost_state: "Стан: дружній",
+mechanics_page_title: "Механіки",
+mech_brewing: "Варіння зілля",
+mech_small_cauldron_crafts: "Крафти на малому котлі",
+mech_intoxication: "Інтоксикація",
+mech_defect: "Дефект",
+blocks_page_title: "Блоки",
+block_improved_cauldron: "Покращений котел",
+block_small_cauldron: "Маленький котел",
+block_smoldering_dirt: "Тліюча земля",
+download_page_title: "Завантажити",
+dl_heading: "Завантажити Improved Potions",
+dl_subtext: "Дата-пак доступний для версій 1.20.1, 1.21.5, 26.1 та 26.3, проте актуальне оновлення доступне лише для версій гри 1.21.5, 26.1 та 26.3.",
+dl_pack_title: "ДатаПак + РесурсПак",
+dl_compat_prefix: "Сумісність: ",
+dl_version_prefix: "Версія: ",
+dl_btn_gdrive: "Завантажити через Google Drive",
+dl_btn_modrinth: "Завантажити через Modrinth",
+dl_btn_bugreport: "Повідомити про знайдений баг",
+altar_biome: "Біом: болото",
+altar_rarity: "Рідкість: рідкісна",
+altar_description: "Досить рідкісна споруда, що зустрічається посеред болота. У центрі завжди розташований кам'яний стіл зі свічками та черепом скелета. Також по краях знаходяться купи «звичайних» каменів.",
+house_rarity: "Рідкість: середня",
+house_desc_part1: "Схожий на звичайний будиночок відьми, але є занедбаним. Всередині завжди знаходиться скриня з не найціннішим лутом. Головним предметом всередині є ",
+house_desc_part2: ", яке трапляється не зі 100% шансом.",
+campfire_description: "Не найменша структура, яка складається з невеликих кам'яних руїн по краях та копиць сіна в центрі. Зустрічається не дуже часто і не несе жодного функціоналу.",
+mushrooms_rarity: "Рідкість: часта",
+mushrooms_description: "Блукаючи болотом, є досить високий шанс зустріти великий червоний або коричневий гриб. Вони виглядають так само, як і в біомі Темного лісу, і також не несуть жодної користі.",
+ghost_spawn: "Місце спавну: Темний ліс",
+ghost_rarity: "Рідкість: звичайна",
+item_jar_acc: "Банку",
+item_ghost_in_jar_acc: "Привида в банці",
+item_special_potion_gen: "Особливого зілля",
+ghost_desc_part1: "Дружній моб, який зустрічається в біомі темного лісу. Він нічого не вміє робити, а лише блукає лісом. Натиснувши по ньому ПКМ, використовуючи ",
+ghost_desc_part2: ", його можна зловити в неї. Таким чином гравець отримає ",
+ghost_desc_part3: ", який є інгредієнтом для ",
+ghost_desc_part4: ". Привид не скидає предмети після смерті, лише трохи досвіду.",
+brewing_func: "Функціонал: приготування розхідників",
+item_potions_gen: "Зілля",
+block_improved_cauldron_short: "Покращеним",
+item_gunpowder_wart_acc: "Порохову бородавку",
+item_bottles_gen: "Пляшечок",
+item_redstone_dust_gen: "Порошку червоного каменю",
+mech_defect_adj: "Дефектне",
+brewing_desc_1: "Для варіння ",
+brewing_desc_2: " ключовим блоком є котел. Він буває ще й ",
+brewing_desc_3: ", але також підійде і звичайний. Для початку потрібно залити в нього воду і забезпечити жар. Його може дати блок магми або ",
+brewing_desc_4: ", які мають бути розміщені під котлом. Після цього в котел потрібно кинути ",
+brewing_desc_5: ". Лише після цих дій котел почне кип'ятити воду і ви зможете ним користуватися. Чи кипить вода, можна зрозуміти за бульбашками в самому котлі. Чим довше він кипить, тим швидше з нього випаровується рідина. Щоб варити зілля, достатньо взяти один з інгредієнтів і кинути в киплячий котел. Після певного звуку гравець зможе набрати скрафчене зілля, використовуючи один із трьох видів ",
+brewing_desc_6: ". Зілля також можна покращувати за допомогою пилу червоного каменю або ",
+brewing_desc_7: ". З невеликим шансом гравець також може отримати не створене ним зілля, а ",
+brewing_desc_8: ". Також котел може вибухнути, якщо під час варіння використати більше трьох інгредієнтів за раз, або при варінні ",
+brewing_desc_9: " використати більше двох (покращуючі інгредієнти на кшталт пилу червоного каменю не враховуються).",
+mini_cauldron_func: "Функціонал: створення інгредієнтів",
+block_small_cauldron_gen: "Маленького котел",
+item_special_potions_gen: "Особливих зіль",
+item_pestle_inst: "Товкачем",
+mini_cauldron_desc_1: "Використовуючи блок ",
+mini_cauldron_desc_2: " гравець може скрафтити як інгредієнти для ",
+mini_cauldron_desc_3: " або стріли з ефектами, так і ",
+mini_cauldron_desc_4: ", без якої нікуди. Весь процес крафту виконується безпосередньо у самому маленькому котлі, а не в інтерфейсі. Для крафту достатньо кинути всі необхідні інгредієнти у потрібній кількості на котел і натиснути по ньому ",
+mini_cauldron_desc_5: ". У результаті з'явиться потрібний предмет у тому ж котлі.",
+intox_func: "Функціонал: обмеження у використанні зілля",
+mech_brewing_single: "Варіння",
+item_bottle_single: "Пляшку",
+intox_desc_1: "Використовуючи 3 і більше зілля за короткий проміжок часу, гравець перевищує шкалу інтоксикації, через що хоч і отримує бажані ефекти від зілля, але також і кілька негативних. Найпростіший спосіб уникнути цієї механіки — витримувати невеликі перерви між використанням зілля. Ще одним варіантом є банальне ",
+intox_desc_2: " з використанням 2 або трьох ефектів на одну ",
+intox_desc_3: ".",
+defect_func: "Функціонал: випадкове отримання негативного зілля",
+block_improved_cauldron_gen: "Покращеного котел",
+defect_desc_1: "При тривалому використанні ",
+defect_desc_2: ", рано чи пізно котел засмітиться, тим самим видасть гравцеві замість потрібного зілля – дефектне. Це досить рідкісна ситуація, але цілком можлива. Випивши дефектне зілля, гравець отримає низку негативних ефектів.",
+cauldron_tool: "Інструмент для добування: кайло",
+cauldron_craft_avail: "Крафт: є",
+cauldron_type: "Тип: інструмент",
+mech_brewing_gen: "Варіння зілля",
+item_gunpowder_wart_gen: "Порохової нарості",
+cauldron_desc_1: "Краща версія оригінального котла з гри. Призначений для зручнішого ",
+cauldron_desc_2: " на дещо пізніших етапах гри. Його неможливо знайти у світі, лише скрафтити власноруч. Ключовою особливістю є вища швидкість закипання води після використання ",
+cauldron_desc_3: ", але натомість вода починає швидше випаровуватися.",
+craft_label: "Крафт:",
+craft_station_workbench: "Робоче місце: верстат",
+craft_diff_high: "Складність: висока",
+dirt_tool: "Інструмент для добування: лопата",
+craft_diff_easy: "Складність: легка",
+dirt_desc_1: "Аналог магмового блоку, але на ранніх етапах гри. Використовується для жару, який потрібен котлу під час ",
+dirt_desc_2: ". Після створення гравець отримує блок, який після встановлення можна підпалити. Зробивши це, блок змінить текстуру та буде готовий до використання.",
+small_cauldron_tool: "Інструмент для добування: рука",
+craft_diff_medium: "Складність: середня",
+small_cauldron_desc_1: "Блок-інструмент, призначений для створення особливих інгредієнтів для зілля, а також стріл з ефектами. Так само як і ",
+small_cauldron_desc_2: ", його неможливо знайти у світі, лише скрафтити на верстаті. Не маючи його, гравець не зможе отримати ключові предмети для ",
+small_cauldron_desc_3: ", а також зварити ",
+item_jar: "Банка",
+jar_func: "Функціонал: інгредієнт",
+mob_ghosts_gen: "Привидів",
+jar_desc_1: "Предмет, який можна використовувати для лову ",
+jar_desc_2: ". Достатньо лише натиснути нею ПКМ по мобу, і гравець отримає ",
+item_swamp_chestplate: "Болотний нагрудник",
+swamp_armor_func: "Функціонал: броня",
+swamp_armor_desc: "Здебільшого декоративний вигляд нагрудника. Можна отримати лише після смерті болотного скелета з не надто високим шансом. Щоб полагодити нагрудник, достатньо об'єднати його з лататтям на ковадлі.",
+item_bottles: "Пляшки",
+bottles_func: "Функціонал: розхідник",
+bottles_desc: "Усього в грі одразу три види пляшечок, від яких залежить спосіб використання самих зіллів. Є як звичайні, що дають змогу випити зілля, так і вибухові, які потрібно розбивати, а також осідаючі, що певний час після використання осідають хмарою на місці розбиття.",
+item_potions: "Зілля",
+potions_func: "Функціонал: їжа / споживання",
+item_special_potions_short: "Особливі",
+item_frog_legs_plural: "Жаб'ячі лапки",
+card_mechanics_gen: "Механік",
+potions_desc_1: "Загалом є два типи зілля: звичайні та ",
+potions_desc_2: ". Звичайними вважаються ті, які вимагають лише одного інгредієнта і не потребують великих витрат. Це може бути зілля левітації, сили, швидкості тощо. А особливими є зілля, які потребують спеціальних інгредієнтів, таких як ",
+potions_desc_3: ", ",
+potions_desc_4: " і тому подібні. Так чи інакше, зілля також можуть поєднувати кілька ефектів. Точніше, можна створювати комбінації одразу з кількох інгредієнтів. Це можливо лише зі звичайними зіллями, але головне — не перестаратися, адже максимальна кількість ефектів — 3. Якщо раптом у котлі під час ",
+potions_desc_5: " потрапить понад три інгредієнти, він вибухне. Детальніше про процес варіння можна дізнатися в окремій категорії ",
+potions_desc_6: ". Також зілля потрібно якось вилучити з котла, що робиться за допомогою ",
+potions_desc_7: ". Залежно від обраної пляшки змінюватиметься спосіб застосування зілля.",
+item_potion_book: "Книга зілля",
+potion_book_func: "Функціонал: інструмент",
+potion_book_desc: "Книга, що випадає з відьми, а також продається в одного із селян. Завдяки їй можна легко дізнатися про інгредієнти та рецепти для різноманітних зіллів. Вона є чудовим путівником на будь-якому етапі гри.",
+frog_leg_desc_1: "Інгредієнт для ",
+frog_leg_desc_2: ", яке дає гравцеві збільшену висоту стрибка, а також поглинає більшу частину шкоди від падіння.",
+spec_potions_brewed: "Варяться",
+mech_intoxication_gen: "Інтоксикації",
+spec_potions_desc_1: "Окрім звичайних зіллів на зразок сили чи регенерації, тепер у грі є й особливі зілля. Це окремий тип, який відрізняється одразу кількома параметрами. По-перше, всі особливі зілля ",
+spec_potions_desc_2: " лише з особливих інгредієнтів. По-друге, особливе зілля може мати лише один інгредієнт і не більше, інакше котел вибухне. По-третє, після вживання особливого зілля рівень ",
+spec_potions_desc_3: " гравця зростає до максимально допустимого. Ключовою особливістю таких зіллів є ефекти, які набагато корисніші за стандартні ванільні, а також мають цікавіші варіації.",
+apple_brewed_part: "Зваривши",
+apple_desc_1: "Досить рідкісний інгредієнт із максимально нестандартними властивостями. З дуже малим шансом випадає з листя дуба, а також іноді з відьми. ",
+apple_desc_2: " з ним зілля, гравець отримує досить незвичайний напій. Випивши його, він отримує кілька негативних ефектів, але натомість отримує обнулення шкали ",
+apple_desc_3: ". Таким чином гравець отримує можливість скористатися ще кількома зіллями.",
+block_small_cauldron_prep: "Маленькому котлі",
+pestle_desc_1: "Предмет, потрібний виключно для крафту на ",
+pestle_desc_2: ". Натискаючи ним по блоку, коли всередині знаходяться необхідні інгредієнти, гравець «активує» крафт.",
+craft_station_small_cauldron: "Робоче місце: маленький котел",
+flint_brewing_prep: "Варінні",
+flint_desc_1: "Особливий інгредієнт, який крафтиться на ",
+flint_desc_2: ". Використовуючи його під час ",
+flint_desc_3: ", гравець отримує димове зілля. При його використанні миттєво з'являється димова завіса на середній проміжок часу. Під її прикриттям можна легко втекти або заплутати супротивника. Як бонус, той, хто опинився безпосередньо в диму, отримує ефект сліпоти. Найкраще застосовувати у формі вибухового зілля.",
+wart_desc_1: "Один із ключових предметів, який завжди потрібен під час ",
+wart_desc_2: " в котлі. Лише за її допомогою гравець може перевести котел у робочий стан. Єдиний спосіб її отримання — крафт на ",
+wart_desc_3: ". Щойно котел буде наповнений водою, під ним стоятиме блок магми або ",
+wart_desc_4: ", а гравець кине Порохову бородавку у котел, він активується та почне поступово кип'ятити воду. Детальніше про процес варіння можна прочитати в категорії ",
+wart_desc_5: ".",
+flame_desc_1: "Особливий інгредієнт, який дає можливість створити одне з найсильніших зіллів. Після ",
+flame_desc_2: " гравець отримує зілля з ефектом сповільнення та сили, але лише на короткий проміжок часу. Разом із цим його швидкість атаки зростає в рази.",
+netherite_desc: "Ще один особливий інгредієнт для зілля. Досить складний, адже потребує для крафту уламок незериту. У результаті дає гравцеві можливість відчути себе справжнім танком. Отримавши ефект сили, а також кілька одиниць додаткової броні, стає значно легше перемогти в будь-якій битві. Хоч ефект і триває недовго, його цілком достатньо, аби кардинально змінити результат бою.",
+redstone_desc_1: "Є допоміжним інгредієнтом для ",
+redstone_desc_2: " зілля. Ключовою особливістю є те, що він здатний покращити ефект зілля. Для цього достатньо в киплячий котел кинути порошок червоного каменю, а потім сам інгредієнт потрібного вам ефекту. Якщо ж потрібно виконати це з кількома ефектами для одного зілля, то достатньо повторити цю ж процедуру для кожного інгредієнта. Працює цей предмет як зі звичайними зіллями, так і з ",
+magma_desc_1: "Інгредієнт для ",
+magma_desc_2: ". Випивши отримане зілля, гравець отримує ефект вогнестійкості на не надто тривалий період. Разом із цим його кроки стають настільки гарячими, що залишають за собою слід із полум'я. Лише за короткий час гравець може з легкістю посіяти хаос і розпалити масштабну пожежу.",
+item_special_potion_acc: "Особливе зілля",
+ghost_jar_desc_1: "Інгредієнт, який можна отримати, застосувавши ",
+ghost_jar_desc_2: " на моба ",
+ghost_jar_desc_3: ". Застосовуючи його, гравець може зварити ",
+ghost_jar_desc_4: ", яке діє на гравця як звичайна невидимість, проте без жодних часток навколо. Якщо ж застосувати його на рамки для предметів або стійки для броні, вони також стануть невидимими. Щоб повернути їм первинний вигляд, достатньо лише намочити їх водою.",
+blue_powder_desc: "Незвичайний інгредієнт для зілля. Дає можливість зварити зілля з ефектом дельфінячої грації. Хоч і з не надто великою тривалістю, але гравець стає неймовірно спритним під водою.",
+arrows_desc_1: "Використовуючи осідаюче зілля, а також 16 одиниць стріл, можна отримати стріли з відповідним ефектом. Для цього потрібен блок-інструмент ",
+arrows_desc_2: "та",
+arrows_desc_3: ". Для крафту підходять лише звичайні зілля (з кількома ефектами або ",
+arrows_desc_4: "не підійдуть), а також фіксована кількість стріл — рівно 16.",
+witch_hat_func: "Функціонал: декор",
+witch_hat_desc: "Декоративний предмет, який випадає з відьми з не надто високим шансом. Не має жодного захисту чи міцності."
+    },
+
+
+    en: {
+      nav_home: "Home",
+      nav_items: "Items",
+      nav_blocks: "Blocks",
+      nav_mobs: "Mobs",
+      nav_download: "Download",
+      welcome_title: "Welcome to the official ImprovedPotions Wiki!",
+      main_desc: "ImprovedPotions is a Minecraft datapack focused on overhauling brewing mechanics. By adding new ingredients, functional blocks, and refining interactions during potion brewing, it brings new life to alchemy. Developed primarily by BigSTy. Here you will find all guides, documentation, and downloads.",
+      nav_panel: "Navigation Panel",
+      card_structures: "Structures",
+      card_mechanics: "Mechanics",
+      card_creators: "Authors",
+      card_video: "Video Review",
+      card_more: "More Projects",
+      authors_page_title: "Authors",
+authors_heading: "Authors and contributors to the project",
+author_bigsty_role: "Role: code, RP, original idea",
+author_bth_role: "Role: RP, ideas",
+author_antoha_role: "Role: code assistance",
+link_text: "link",
+structures_page_title: "Structures",
+click_image_hint: "Click on the images to read more information on dedicated pages",
+struct_huge_mushrooms: "Huge Mushrooms",
+struct_campfire: "Campfire",
+struct_altar: "Altar",
+struct_abandoned_house: "Abandoned House",
+items_page_title: "Items",
+item_potions: "Potions",
+item_special_potions: "Special Potions",
+item_tipped_arrows: "Tipped Arrows",
+item_potion_book: "Potion Book",
+item_gunpowder_wart: "Gunpowder Wart",
+item_redstone_dust: "Redstone Dust",
+item_magma_powder: "Magma Powder",
+item_gunpowder_flame: "Gunpowder Flame",
+item_blue_gunpowder: "Blue Gunpowder",
+item_gunpowder_netherite: "Gunpowder Netherite",
+item_gunpowder_flint: "Gunpowder Flint",
+item_jar: "Jar",
+item_ghost_in_jar: "Ghost in a Jar",
+item_frog_leg: "Frog Leg",
+item_poisoned_apple: "Poisoned Apple",
+item_swamp_chestplate: "Swamp Chestplate",
+item_pestle: "Pestle",
+item_witch_hat: "Witch Hat",
+item_bottles: "Bottles",
+mobs_page_title: "Mobs",
+mob_ghost: "Ghost",
+mob_ghost_type: "Type: entity",
+mob_ghost_fight: "Combat: none",
+mob_ghost_state: "Behavior: passive",
+mechanics_page_title: "Mechanics",
+mech_brewing: "Potion Brewing",
+mech_small_cauldron_crafts: "Small Cauldron Recipes",
+mech_intoxication: "Intoxication",
+mech_defect: "Defect",
+blocks_page_title: "Blocks",
+block_improved_cauldron: "Improved Cauldron",
+block_small_cauldron: "Small Cauldron",
+block_smoldering_dirt: "Smoldering Dirt",
+download_page_title: "Download",
+dl_heading: "Download Improved Potions",
+dl_subtext: "The datapack is available for versions 1.20.1, 1.21.5, 26.1, and 26.3, but the latest update is only supported on versions 1.21.5, 26.1, and 26.3.",
+dl_pack_title: "DataPack + ResourcePack",
+dl_compat_prefix: "Compatibility: ",
+dl_version_prefix: "Version: ",
+dl_btn_gdrive: "Download via Google Drive",
+dl_btn_modrinth: "Download via Modrinth",
+dl_btn_bugreport: "Report a bug",
+altar_biome: "Biome: swamp",
+altar_rarity: "Rarity: rare",
+altar_description: "A fairly rare structure found in the middle of a swamp. In the center, there is always a stone table with candles and a skeleton skull. Piles of 'ordinary' stones are also located around its edges.",
+house_rarity: "Rarity: medium",
+house_desc_part1: "Resembles a regular witch hut, but is abandoned. Inside, there is always a chest with basic loot. The main item inside is the ",
+house_desc_part2: ", which does not appear with a 100% chance.",
+campfire_description: "A moderately sized structure consisting of small stone ruins around the edges and hay bales in the center. It is not found very often and serves no practical function.",
+mushrooms_rarity: "Rarity: common",
+mushrooms_description: "Wandering through the swamp, there is a fairly high chance of finding a huge red or brown mushroom. They look just like those in the Dark Forest biome and serve no practical purpose.",
+ghost_spawn: "Spawn location: Dark Forest",
+ghost_rarity: "Rarity: normal",
+item_jar_acc: "Jar",
+item_ghost_in_jar_acc: "Ghost in a Jar",
+item_special_potion_gen: "Special Potion",
+ghost_desc_part1: "A friendly mob that spawns in the dark forest biome. It doesn't perform any special actions, merely roaming through the woods. Right-clicking it with a ",
+ghost_desc_part2: " allows you to trap it inside. Doing so rewards the player with a ",
+ghost_desc_part3: ", which serves as an ingredient for a ",
+ghost_desc_part4: ". The ghost does not drop any items upon death, only a small amount of experience.",
+brewing_func: "Functionality: consumable crafting",
+item_potions_gen: "Potions",
+block_improved_cauldron_short: "Improved",
+item_gunpowder_wart_acc: "Gunpowder Wart",
+item_bottles_gen: "Bottles",
+item_redstone_dust_gen: "Redstone Dust",
+mech_defect_adj: "Defective",
+brewing_desc_1: "For brewing ",
+brewing_desc_2: ", the cauldron is the essential block. It can also be ",
+brewing_desc_3: ", but a regular one works as well. First, fill it with water and apply heat underneath. Heat can be provided by a magma block or ",
+brewing_desc_4: " placed beneath the cauldron. Next, toss a ",
+brewing_desc_5: " into the cauldron. Only then will the cauldron start boiling water, making it usable. You can tell the water is boiling by the bubbles inside. The longer it boils, the faster liquid evaporates. To brew potions, toss one of the ingredients into the boiling cauldron. After a specific sound cues, you can collect the brewed potion using one of three types of ",
+brewing_desc_6: ". Potions can also be upgraded using redstone dust or ",
+brewing_desc_7: ". With a small chance, you might obtain a ",
+brewing_desc_8: " potion instead of the intended brew. The cauldron can also explode if more than three ingredients are added at once, or when brewing a ",
+brewing_desc_9: " using more than two (upgrading ingredients like redstone dust do not count toward this limit).",
+mini_cauldron_func: "Functionality: crafting ingredients",
+block_small_cauldron_gen: "Small Cauldron",
+item_special_potions_gen: "Special Potions",
+item_pestle_inst: "pestle",
+mini_cauldron_desc_1: "Using the ",
+mini_cauldron_desc_2: " block, the player can craft ingredients for ",
+mini_cauldron_desc_3: " or tipped arrows, as well as the essential ",
+mini_cauldron_desc_4: ". All crafting takes place directly in the world inside the small cauldron rather than through a GUI. Simply drop all required ingredients in their exact quantities onto the cauldron and click it with a ",
+mini_cauldron_desc_5: ". The resulting item will then appear inside the cauldron.",
+intox_func: "Functionality: limitation on potion usage",
+mech_brewing_single: "Brewing",
+item_bottle_single: "Bottle",
+intox_desc_1: "Consuming 3 or more potions within a short period exceeds the intoxication gauge, granting the intended buffs alongside several negative side effects. The easiest way to avoid this mechanic is to leave small pauses between drinking potions. Another workaround is simple multi-effect ",
+intox_desc_2: " that packs 2 or 3 effects into a single ",
+intox_desc_3: ".",
+defect_func: "Functionality: randomly obtaining a negative potion",
+block_improved_cauldron_gen: "Improved Cauldron",
+defect_desc_1: "With heavy use of the ",
+defect_desc_2: ", sooner or later the cauldron will become clogged, granting the player a defective brew instead of the intended potion. This is a fairly rare occurrence, but entirely possible. Drinking a defective potion inflicts a set of negative status effects.",
+cauldron_tool: "Mining tool: pickaxe",
+cauldron_craft_avail: "Crafting: yes",
+cauldron_type: "Type: tool",
+mech_brewing_gen: "Potion Brewing",
+item_gunpowder_wart_gen: "Gunpowder Wart",
+cauldron_desc_1: "An upgraded version of the default vanilla cauldron. Designed for more convenient ",
+cauldron_desc_2: " in the later stages of the game. It cannot be found naturally in the world and must be crafted manually. Its key feature is a significantly faster water boiling speed after adding a ",
+cauldron_desc_3: ", though water evaporates noticeably quicker in return.",
+craft_label: "Crafting:",
+craft_station_workbench: "Workstation: crafting table",
+craft_diff_high: "Difficulty: high",
+dirt_tool: "Mining tool: shovel",
+craft_diff_easy: "Difficulty: easy",
+dirt_desc_1: "An early-game alternative to magma blocks. It is used to provide the heat required under the cauldron during ",
+dirt_desc_2: ". After crafting, the player receives a block that can be placed down and lit on fire. Once ignited, it changes texture and becomes ready for use.",
+small_cauldron_tool: "Mining tool: hand",
+craft_diff_medium: "Difficulty: medium",
+small_cauldron_desc_1: "A utility block designed for crafting special potion ingredients and tipped arrows. Just like the ",
+small_cauldron_desc_2: ", it cannot be found naturally in the world and must be crafted on a crafting table. Without it, players cannot obtain the essential components for ",
+small_cauldron_desc_3: ", nor create ",
+item_jar: "Jar",
+jar_func: "Functionality: ingredient",
+mob_ghosts_gen: "Ghosts",
+jar_desc_1: "An item that can be used to catch ",
+jar_desc_2: ". Simply right-click on the mob with it to obtain a ",
+item_swamp_chestplate: "Bogged Chestplate",
+swamp_armor_func: "Functionality: armor",
+swamp_armor_desc: "A predominantly decorative chestplate. It can only be dropped by a bog skeleton upon death with a modest chance. To repair the chestplate, simply combine it with lily pads on an anvil.",
+item_bottles: "Bottles",
+bottles_func: "Functionality: consumable",
+bottles_desc: "There are three types of bottles in the game, determining how potions are used. Regular bottles allow the player to drink the potion, splash bottles shatter on impact, and lingering bottles leave an effect cloud behind for a short duration after breaking.",
+item_potions: "Potions",
+potions_func: "Functionality: food / consumable",
+item_special_potions_short: "Special",
+item_frog_legs_plural: "Frog Legs",
+card_mechanics_gen: "Mechanics",
+potions_desc_1: "There are two types of potions: regular and ",
+potions_desc_2: ". Regular potions require only one ingredient and minimal resources. These include potions of levitation, strength, speed, etc. Special potions require unique components such as ",
+potions_desc_3: ", ",
+potions_desc_4: ", and similar items. Furthermore, potions can combine multiple effects into one brew. You can create multi-ingredient combinations with regular brews, but be careful not to overdo it: the maximum limit is 3 effects. If more than three ingredients are placed into the cauldron during ",
+potions_desc_5: ", it will violently explode. Learn more about the whole brewing process in the dedicated ",
+potions_desc_6: " category. To collect your brew from the cauldron, use ",
+potions_desc_7: ". The type of bottle chosen determines how the potion will be applied.",
+item_potion_book: "Potion Book",
+potion_book_func: "Functionality: tool",
+potion_book_desc: "A book that drops from witches and can also be purchased from a villager. It allows players to easily discover ingredients and brewing recipes for various potions, serving as an excellent guide throughout all stages of the game.",
+frog_leg_desc_1: "An ingredient for the ",
+frog_leg_desc_2: ", which grants the player increased jump height and absorbs most fall damage.",
+spec_potions_brewed: "Brewed",
+mech_intoxication_gen: "Intoxication",
+spec_potions_desc_1: "In addition to regular potions like strength or regeneration, the game now features special potions. This unique category differs in several major ways. First, all special potions are ",
+spec_potions_desc_2: " exclusively from special ingredients. Second, a special potion can only contain one ingredient; adding more causes the cauldron to explode. Third, drinking a special potion immediately raises the player's ",
+spec_potions_desc_3: " level to the maximum threshold. The defining trait of these brews is their effects, which are vastly more potent than vanilla potions and offer much more unique behaviors.",
+apple_brewed_part: "Brewing",
+apple_desc_1: "A fairly rare ingredient with unconventional properties. It drops from oak leaves with a very low chance and occasionally drops from witches. ",
+apple_desc_2: " a potion with it yields a very unusual beverage. Drinking it inflicts several negative status effects, but completely clears the player's ",
+apple_desc_3: " meter in exchange. This gives the player the opportunity to consume additional potions without danger.",
+block_small_cauldron_prep: "Small Cauldron",
+pestle_desc_1: "An item used solely for crafting recipes in the ",
+pestle_desc_2: ". Clicking the block with it when the required ingredients are inside activates the crafting process.",
+craft_station_small_cauldron: "Workstation: small cauldron",
+flint_brewing_prep: "Brewing",
+flint_desc_1: "A special ingredient crafted in the ",
+flint_desc_2: ". When used during ",
+flint_desc_3: ", it produces a smoke potion. Throwing or consuming it instantly creates a smokescreen that lingers for a moderate duration. Under its cover, you can easily escape or mislead foes. As an added bonus, anyone caught directly in the smoke receives the Blindness effect. Most effective as a splash potion.",
+wart_desc_1: "A critical core item always required during ",
+wart_desc_2: " in a cauldron. Only with it can a player activate the cauldron for use. The sole way to obtain it is crafting in a ",
+wart_desc_3: ". As soon as the cauldron is filled with water, positioned over a magma block or ",
+wart_desc_4: ", and a gunpowder wart is thrown inside, the cauldron activates and begins boiling the water. Read more about the brewing mechanics in the dedicated ",
+wart_desc_5: " category.",
+flame_desc_1: "A special ingredient that allows you to brew one of the most potent potions. After ",
+flame_desc_2: ", the player receives a potion granting slowness alongside immense strength for a brief duration, while dramatically boosting attack speed.",
+netherite_desc: "Another special potion ingredient. Quite demanding to obtain, as it requires a netherite scrap to craft. In return, it lets the player feel like an unstoppable tank. Gaining immense strength along with bonus armor points makes winning any battle significantly easier. Although the buff does not last long, it is more than enough to turn the tide of a fight.",
+redstone_desc_1: "Serves as an auxiliary ingredient for potion ",
+redstone_desc_2: ". Its key feature is the ability to upgrade potion effects. Simply toss the redstone dust into the boiling cauldron first, followed by the ingredient corresponding to your desired effect. If you wish to amplify multiple effects on a multi-effect potion, repeat this exact step for each ingredient. This works for both regular potions and ",
+magma_desc_1: "An ingredient for the ",
+magma_desc_2: ". Drinking the resulting potion grants Fire Resistance for a moderate duration. Along with this, the player's footsteps become scorching hot, trailing fire behind them. In just a short period, you can easily wreak havoc and ignite massive blazes.",
+item_special_potion_acc: "Special Potion",
+ghost_jar_desc_1: "An ingredient obtained by using a ",
+ghost_jar_desc_2: " on a ",
+ghost_jar_desc_3: ". With it, players can brew a ",
+ghost_jar_desc_4: ", which grants standard invisibility to the player without displaying lingering particle effects. If used on item frames or armor stands, it makes them completely invisible as well. To restore their original visibility, simply splash them with water.",
+blue_powder_desc: "An unusual potion ingredient. It allows brewing a potion with the Dolphin's Grace effect. While its duration is fairly short, it makes the player extraordinarily agile underwater.",
+arrows_desc_1: "Using a lingering potion along with 16 arrows yields tipped arrows imbued with that effect. This process requires the utility block ",
+arrows_desc_2: "and a",
+arrows_desc_3: ". Only regular potions are suitable for this recipe (multi-effect brews or ",
+arrows_desc_4: "will not work), and it strictly requires a fixed batch of 16 arrows.",
+witch_hat_func: "Functionality: cosmetic",
+witch_hat_desc: "A cosmetic item that drops from witches with a fairly low chance. It provides no armor defense or durability."
+    },
+
+
+    ru: {
+      nav_home: "Главная",
+      nav_items: "Предметы",
+      nav_blocks: "Блоки",
+      nav_mobs: "Мобы",
+      nav_download: "Скачать",
+      welcome_title: "Добро пожаловать на официальную вики ImprovedPotions!",
+      main_desc: "ImprovedPotions - это небольшой ДатаПак для игры Minecraft. Основной его целью является улучшение механики варки зельей. Добавляя новые ингредиенты, рабочие блоки, а также под корень изменяя элементы взаимодействия вовремя варки, проект делает эту часть игры более интересной. Основным автором ДатаПака является игрок BigSTy. На данном сайте Вы можете найти всю нужную информацию про проект, кто создавал его, а также его скачать. Меню со всеми вкладками находится ниже.",
+      nav_panel: "Панель навигации",
+      card_structures: "Структуры",
+      card_mechanics: "Механики",
+      card_creators: "Авторы",
+      card_video: "Видео обзор",
+      card_more: "Другие работы",
+      authors_page_title: "Авторы",
+authors_heading: "Автора и все кто помогал при разработке",
+author_bigsty_role: "Сфера: код, рп, автор идеи",
+author_bth_role: "Сфера: рп, идеи",
+author_antoha_role: "Сфера: помощь с кодом",
+link_text: "ссылка",
+structures_page_title: "Структуры",
+click_image_hint: "Чтобы читать больше информации переходите на страницы нажимая на изображения",
+struct_huge_mushrooms: "Огромные грибы",
+struct_campfire: "Костёр",
+struct_altar: "Алтарь",
+struct_abandoned_house: "Заброшенный дом",
+items_page_title: "Предметы",
+item_potions: "Зелья",
+item_special_potions: "Особые зелья",
+item_tipped_arrows: "Стрелы с эффектом",
+item_potion_book: "Книга зелий",
+item_gunpowder_wart: "Пороховая бородавка",
+item_redstone_dust: "Порошок красного камня",
+item_magma_powder: "Порошок магмы",
+item_gunpowder_flame: "Пороховое пламя",
+item_blue_gunpowder: "Синий порох",
+item_gunpowder_netherite: "Пороховой незерит",
+item_gunpowder_flint: "Пороховой кремень",
+item_jar: "Банка",
+item_ghost_in_jar: "Призрак в банке",
+item_frog_leg: "Лягушачья лапка",
+item_poisoned_apple: "Отравленное яблоко",
+item_swamp_chestplate: "Болотный нагрудник",
+item_pestle: "Пестик",
+item_witch_hat: "Шляпа ведьмы",
+item_bottles: "Бутыльки",
+mobs_page_title: "Мобы",
+mob_ghost: "Призрак",
+mob_ghost_type: "Тип: сущность",
+mob_ghost_fight: "Бой: нет",
+mob_ghost_state: "Состояние: дружелюбный",
+mechanics_page_title: "Механики",
+mech_brewing: "Варка зелий",
+mech_small_cauldron_crafts: "Крафты на маленьком котле",
+mech_intoxication: "Интоксекация",
+mech_defect: "Дефект",
+blocks_page_title: "Блоки",
+block_improved_cauldron: "Улучшенный котёл",
+block_small_cauldron: "Маленький котёл",
+block_smoldering_dirt: "Тлеющая земля",
+download_page_title: "Скачать",
+dl_heading: "Скачать Improved Potions",
+dl_subtext: "ДатаПак доступен на версии 1.20.1, 1.21.5, 26.1 и 26.3, но актуальное обновление доступно лишь для версии игры 1.21.5, 26.1 и 26.3.",
+dl_pack_title: "ДатаПак + РесурсПак",
+dl_compat_prefix: "Совместимость: ",
+dl_version_prefix: "Версия: ",
+dl_btn_gdrive: "Скачать через Google Driver",
+dl_btn_modrinth: "Скачать через Modrinth",
+dl_btn_bugreport: "Написать про найденный баг",
+altar_biome: "Биом: болото",
+altar_rarity: "Редкость: редкая",
+altar_description: "Достаточно редкое строение, которое встречается по среди болота. В центре всегда находится каменный стол со свечами и черепом скелета. Также по его краям расположены груды \"обыкновенных\" камней.",
+house_rarity: "Редкость: средняя",
+house_desc_part1: "Подобие обычного домика ведьмы, но является заброшенным. Внутри всегда находится сундук с не самым ценным лутом. Главным предметов внутри является ",
+house_desc_part2: ", которое встречается не со 100% шансом.",
+campfire_description: "Не самая маленькая структура, которая состоит из небольших каменных руин по краям и стогами сена в центре. Встречается не очень часто и не несёт никакого функционала.",
+mushrooms_rarity: "Редкость: частая",
+mushrooms_description: "Блуждая по болоту есть достаточно большой шанс встретить большой красный или коричневый гриб. Они выглядят аналогично, как и в биоме Тёмного леса, а также не несут никакой пользы.",
+ghost_spawn: "Место спавна: Тёмный лес",
+ghost_rarity: "Редкость: нормальная",
+item_jar_acc: "Банку",
+item_ghost_in_jar_acc: "Призрака в банке",
+item_special_potion_gen: "Особого зелья",
+ghost_desc_part1: "Дружелюбный моб, который встречается в биоме тёмного леса. Он ничего не умеет делать, а лишь блуждает лесом. Нажав по нему ПКМ, используя ",
+ghost_desc_part2: ", то можно его поймать в неё. Таким образом игрок получит ",
+ghost_desc_part3: ", который является ингредиентом для ",
+ghost_desc_part4: ". Призрак не выбрасывает предметы после смерти, а лишь немного опыта.",
+brewing_func: "Функционал: приготовление расходников",
+item_potions_gen: "Зелий",
+block_improved_cauldron_short: "Улучшеным",
+item_gunpowder_wart_acc: "Пороховую бородавку",
+item_bottles_gen: "Бутыльков",
+item_redstone_dust_gen: "Порошка красного камня",
+mech_defect_adj: "Дефектное",
+brewing_desc_1: "Для варки ",
+brewing_desc_2: " ключевым блоком есть котёл. Он бывает ещё и ",
+brewing_desc_3: ", но также подойдёт и обычный. Для начала нужно залить в него воду и заполучить жар. Его может дать блок магмы или ",
+brewing_desc_4: ", которые должны быть размещены под котлом. После этого, в котёл нужно кинут ",
+brewing_desc_5: ". Лишь после этих действий котёл начнёт кипятить воду и Вы сможете им пользоваться. Кипит ли вода можно понять по пузырькам в самом котле. Чем дольше он кипит, тем быстрее с него испаряется жидкость. Чтобы варить зелья, достаточно взять один из ингредиентов и кинуть в кипящий котёл. После определённого звука, игрок сможет набрать скрафченое зелья используя один из трёх видов ",
+brewing_desc_6: ". Зелья также можно улучшать при помощи пыли красного камня или ",
+brewing_desc_7: ". С маленьким шансом игрок также может получить не скрафченое им зелья, а ",
+brewing_desc_8: ". Ещё котёл может взорваться, если во время варки использовать больше трёх ингредиентов за раз, или при варки ",
+brewing_desc_9: " используя больше двух (улучшающие ингредиенты по типу пыли красного камня не учитываются).",
+mini_cauldron_func: "Функционал: создание ингредиентов",
+block_small_cauldron_gen: "Маленького котла",
+item_special_potions_gen: "Особых зелий",
+item_pestle_inst: "пестиком",
+mini_cauldron_desc_1: "Используя блок ",
+mini_cauldron_desc_2: " игрок может скрафтить как ингредиенты для ",
+mini_cauldron_desc_3: " или стрелы с эффектами, так и ",
+mini_cauldron_desc_4: ", без которой никуда. Весь процесс крафтов выполняется непосредственно в самом маленьком котле, но не в интерфейсе. Для крафта достаточно кинуть все необходимые ингредиенты в нужном количестве на котёл и нажать по нему ",
+mini_cauldron_desc_5: ". В результате появится нужный предмет во всё том же котле.",
+intox_func: "Функционал: ограничение в использовании зелий",
+mech_brewing_single: "Варка",
+item_bottle_single: "Бутылёк",
+intox_desc_1: "Используя 3 и больше зелий за короткий промежуток времени, игрок превышает шкалу интоксикации, из за чего хоть и получает заветные эффекты от зелий, но также и несколько негативных. Самый простой способ избежать этой механики, так это выдерживать небольшие перерывы между использованием зелий. Ещё одним вариантом является банальная ",
+intox_desc_2: " с использованием 2 или трёх эффектов на один ",
+intox_desc_3: ".",
+defect_func: "Функционал: получение случайным образом негативное зелье",
+block_improved_cauldron_gen: "Улучшеного котла",
+defect_desc_1: "При большом использовании ",
+defect_desc_2: ", рано или поздно котёл засорится, тем самым даст игроку вместо нужного ему зелья – дефектное. Это достаточно редкая ситуация, но вполне возможная. Выпив дефектное зелья, игрок получит ряд негативных эффектов.",
+cauldron_tool: "Инструмент ломания: кирка",
+cauldron_craft_avail: "Крафт: есть",
+cauldron_type: "Тип: инструмент",
+mech_brewing_gen: "Варки зелий",
+item_gunpowder_wart_gen: "Пороховой бородавки",
+cauldron_desc_1: "Более хорошая версия оригинального котла из игры. Предназначен для более удобной ",
+cauldron_desc_2: " на чуть более поздних этапов игры. Его найти в мире невозможно, лишь скрафтить в ручную. Ключевой особенностью является более быстрая скорость закипания воды после использования ",
+cauldron_desc_3: ", но в замен, вода начинает быстрее испарятся.",
+craft_label: "Крафт:",
+craft_station_workbench: "Рабочее место: верстак",
+craft_diff_high: "Сложность: высокая",
+dirt_tool: "Инструмент ломания: лопата",
+craft_diff_easy: "Сложность: лёгкая",
+dirt_desc_1: "Аналог магмового блока, но на более ранних этапах игры. Используется для жара, который нужен котлу при ",
+dirt_desc_2: ". После крафта, игрок получает блок, который разместив можно поджечь. Сделав это, блок изменит текстуру и будет готов к использованию.",
+small_cauldron_tool: "Инструмент ломания: рука",
+craft_diff_medium: "Сложность: средняя",
+small_cauldron_desc_1: "Блок инструмент, который предназначен для создания особых ингредиентов для зелий, а также стрел с эффектами. Также как и ",
+small_cauldron_desc_2: " невозможно найти в мире, лишь скрафтить на верстаке. Не имея его, игрок не сможет получить ключевые предметы для ",
+small_cauldron_desc_3: ", а также сделать ",
+item_jar: "Банка",
+jar_func: "Функционал: ингредиент",
+mob_ghosts_gen: "Призраков",
+jar_desc_1: "Предмет, который можно использовать для ловли ",
+jar_desc_2: ". Достаточно лишь нажать ею ПКМ по мобу, тем самым игрок получает ",
+item_swamp_chestplate: "Болотный нагрудник",
+swamp_armor_func: "Функционал: броня",
+swamp_armor_desc: "По большей части декоративный вид нагрудника. Можно получить лишь после смерти болотного скелета с не самым большим шансом. Чтобы починить нагрудник, достаточно его использовать вместе с кувшинками на наковальне.",
+item_bottles: "Бутыльки",
+bottles_func: "Функционал: расходник",
+bottles_desc: "Всего в игре сразу три вида бутыльков, от которых зависит использование самих зелий. Есть как обычные, которые дают возможность зелья выпить, так и взрывные, которые нужно разбивать, так и оседающие, которые некоторое время после использования оседают на месте разбития.",
+item_potions: "Зелья",
+potions_func: "Функционал: пища",
+item_special_potions_short: "Особые",
+item_frog_legs_plural: "Лягушачьи лапки",
+card_mechanics_gen: "Механик",
+potions_desc_1: "Всего есть два типа зелий: обычные и ",
+potions_desc_2: ". Обычными считаются те, которые требуют лишь одного ингредиента и не требуют больших затрат. Это может быть зелье левитации, силы, скорости и тд. А особыми считаются зелья, которые требуют особых ингредиентов, по типу ",
+potions_desc_3: ", ",
+potions_desc_4: " и тому подобные. Так или иначе, но зелья также могут иметь по несколько эффектов. Если быть точнее, то можно создавать комбинации сразу с нескольких ингредиентов. Это можно сделать лишь из обычными зельями, но главное не переборщить. Ибо максимально количество эффектов – 3. Если вдруг в котёл во время ",
+potions_desc_5: " попадёт больше трёх ингредиентов, то тогда он взорвётся. Более подробно про процесс варки можно узнать в отдельной категории ",
+potions_desc_6: ". Также зелья нужно каким то образом достать из котла, что делается при помощи ",
+potions_desc_7: ". В зависимости от выбранного бутылька будет зависеть способ использования зелья.",
+item_potion_book: "Книга зелий",
+potion_book_func: "Функционал: инструмент",
+potion_book_desc: "Книга, которая выпадает из ведьмы, а также продаётся в одного из жителей. Благодаря ей можно легко узнать об ингредиентах, а также крафтах для различных зелий. Является отличным путеводителем на любых стадиях игры.",
+frog_leg_desc_1: "Ингредиент для ",
+frog_leg_desc_2: ", которое даёт игроку большую высоту прыжка, а также поглощает большую часть урона при падении.",
+spec_potions_brewed: "Варятся",
+mech_intoxication_gen: "Интоксекации",
+spec_potions_desc_1: "Помимо обычных зелий по типу силы или регенерации, теперь в игре и особые зелья. Это отдельный тип, который отличается сразу несколькими параметрами. Во первых, все особые зелья ",
+spec_potions_desc_2: " лишь из особых ингредиентов. Во вторых, особое зелья может иметь лишь один ингредиент и не больше, а иначе котёл взорвётся. В третьих, после питья особого зелья, то уровень ",
+spec_potions_desc_3: " игрока повышается до максимально допустимого. Ключевой особенностью таких зелий являются эффекты, которые на много полезней обычных из игры, а также имеют более интересные вариации.",
+apple_brewed_part: "Сварив",
+apple_desc_1: "Достаточно редкий ингредиент с максимально не стандартными свойствами. С очень маленьким шансом падает с листвы дуба, а также иногда с ведьмы. ",
+apple_desc_2: " с ним зелья игрок получает достаточно необычный напиток. Выпив его он получает несколько отрицательных эффектов, но в замен получает обнуление шкалы ",
+apple_desc_3: ". Таким образом игрок получает возможность воспользоваться ещё несколькими зельями.",
+block_small_cauldron_prep: "Маленьком котле",
+pestle_desc_1: "Предмет, который нужен лишь для крафтов на ",
+pestle_desc_2: ". Нажимая им по блоку, когда в нём находятся нужные ингредиенты, игрок “активирует” крафт.",
+craft_station_small_cauldron: "Рабочее место: маленький котёл",
+flint_brewing_prep: "Варке",
+flint_desc_1: "Особый ингредиент, который крафтится на ",
+flint_desc_2: ". Используя его при ",
+flint_desc_3: ", игрок получает дымовое зелья. При его использовании в моменте появляется дымовая завеса на средний промежуток времени. Во время этого, Вы с лёгкостью можете убежать или обмануть противника. Как бонус, игрок, который находится непосредственно в дыму, получает эффект слепоты. Лучше всего использовать в виде взрывного зелья.",
+wart_desc_1: "Один из ключевых предметов, который всегда нужен при ",
+wart_desc_2: " в котле. Лишь используя её игрок сможет привести котёл в рабочее состояние. Единственный способ её получения, так это крафт на ",
+wart_desc_3: ". Как только котёл будет полон воды, под ним будет стоять блок магмы или ",
+wart_desc_4: ", а игрок кинет пороховую бородавку в котёл, то тогда он активируется и начнёт по немного кипятить воду. Более подробно про процесс варки можно прочитать в категории ",
+wart_desc_5: ".",
+flame_desc_1: "Особый ингредиент, который даёт возможность создать одно из самых сильных зелий. После ",
+flame_desc_2: " игрок получает зелья с эффектом замедления и силы, но лишь на короткий период. А также, вместе с этим, его скорость атаки увеличивается кратно.",
+netherite_desc: "Ещё один особый ингредиент для зелья. Достаточно сложный, ибо требует для крафта осколок незерита. В результате даёт игроку возможность ощутить себя танком. Получив эффект силы, а также несколько единиц дополнительной брони, становится на много легче победить в любом сражении. Хоть эффект не длится долго, но его достаточно, чтобы кардинально изменить результат битвы.",
+redstone_desc_1: "Является вспомогательным ингредиентом для ",
+redstone_desc_2: " зелий. Ключевой особенностью является то, что он способен улучшить эффект зелья. Для этого достаточно в кипящий котёл кинуть порошок красного камня, а затем сам ингредиент нужного Вам эффекта. Если же нужно это проделать с несколькими эффектами для зелья, то достаточно проделать эту же процедуру для каждого ингредиента. Работает этот предмет как с обычными зельями, так и с ",
+magma_desc_1: "Ингредиент для ",
+magma_desc_2: ". Выпив полученное зелья, игрок получает эффект огнеупорности на не самый большой период. Вместе с этим, его шаги становятся настолько жаркими, что за собою оставляет след из огня. Лишь за короткое время игрок может с лёгкостью посеять хаос и разжечь большой пожар.",
+item_special_potion_acc: "Особое зелье",
+ghost_jar_desc_1: "Ингредиент, который можно получить используя ",
+ghost_jar_desc_2: " по мобу ",
+ghost_jar_desc_3: ". Используя её игрок может сварить ",
+ghost_jar_desc_4: ", которое на игрока действует как обычная невидимость, но без частиц возле него. Если же игрок использует его на рамках для предметов, а также на стойках для брони, то тогда они также станут невидимыми. Чтобы вернуть им природный вид, то достаточно всего лишь намочить их водой.",
+blue_powder_desc: "Необычный ингредиент для зелья. Даёт возможность сварить зелье с эффектом дельфиньей грацией. Хоть и не с самым большой длительностью, но игрок становится невероятно проворным под водой.",
+arrows_desc_1: "Используя оседающее зелья, а также 16 единиц стрел, можно получить особые зелья с использованным эффектом. Для этого нужен блок инструмент ",
+arrows_desc_2: "и",
+arrows_desc_3: ". Для крафта подходят лишь обычные зелья (с несколькими эффектами или ",
+arrows_desc_4: "не подойдут), а также фиксированное количество стрел, а именно – 16.",
+witch_hat_func: "Функционал: декор",
+witch_hat_desc: "Декоративный предмет, который выпадает из ведьмы с не самым большим шансом. Не имеет какой либо защиты и прочности."
+    }
+  };
+
+  function applyLanguage(lang) {
+    localStorage.setItem('site_lang', lang);
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (translations[lang] && translations[lang][key]) {
+        el.textContent = translations[lang][key];
+      }
+    });
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+  }
+
+  function initLangUI() {
+    if (!document.querySelector('.lang-switcher-top')) {
+      const switcher = document.createElement('div');
+      switcher.className = 'lang-switcher-top';
+      switcher.innerHTML = `
+        <button type="button" class="lang-btn" data-lang="ua">UA</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
+        <button type="button" class="lang-btn" data-lang="ru">RU</button>
+      `;
+      document.body.appendChild(switcher);
+
+      switcher.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => applyLanguage(btn.getAttribute('data-lang')));
+      });
+    }
+
+    const savedLang = localStorage.getItem('site_lang');
+
+    if (!savedLang) {
+      if (!document.querySelector('.lang-modal-overlay')) {
+        const modal = document.createElement('div');
+        modal.className = 'lang-modal-overlay';
+        modal.innerHTML = `
+          <div class="lang-modal">
+            <h2>Оберіть мову / Выберите язык / Choose language</h2>
+            <p>Please select your preferred language for the wiki:</p>
+            <div class="lang-modal-buttons">
+              <button type="button" class="lang-modal-btn" data-lang="ua">🇺🇦 Українська</button>
+              <button type="button" class="lang-modal-btn" data-lang="en">🇬🇧 English</button>
+              <button type="button" class="lang-modal-btn" data-lang="ru">🇷🇺 Русский</button>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(modal);
+
+        modal.querySelectorAll('.lang-modal-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            applyLanguage(btn.getAttribute('data-lang'));
+            modal.remove();
+          });
+        });
+      }
+    } else {
+      applyLanguage(savedLang);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLangUI);
+  } else {
+    initLangUI();
+  }
+})();
